@@ -27,15 +27,14 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+class AccountMove(models.Model):
+    _inherit = 'account.move'
 
-    @api.multi
-    @api.depends('number', 'state')
+    @api.depends('name', 'state')
     def _compute_ref_number(self):
         for invoice in self:
-            if invoice.number:
-                invoice_number = re.sub(r'\D', '', invoice.number)
+            if invoice.name:
+                invoice_number = re.sub(r'\D', '', invoice.name)
                 checksum = sum((7, 3, 1)[idx % 3] * int(val)
                                for idx, val in enumerate(invoice_number[::-1]))
                 invoice.ref_number = invoice_number + str((10 - (checksum % 10)) % 10)
