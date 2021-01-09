@@ -37,6 +37,7 @@ This module only adds the barcode on the invoice form, given that
 
     "depends": [
         "account",
+        "l10n_fi_invoice_numbers",
     ],
 
     "data": [
