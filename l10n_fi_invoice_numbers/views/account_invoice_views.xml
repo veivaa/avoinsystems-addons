@@ -4,7 +4,7 @@
     <record id="view_account_move_form_finnish" model="ir.ui.view">
         <field name="name">account.move.form.finnish</field>
         <field name="model">account.move</field>
-        <field name="inherit_id" ref="account.move"/>
+        <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other_info']//group/field[@name='name']" position="after">
                 <field name="invoice_number"/>
