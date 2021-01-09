@@ -47,6 +47,8 @@ class InvoiceBarcode(models.Model):
     def _get_iban_str(self, bank_account):
         if bank_account:
             acc_num = bank_account.acc_number
+            # remove spaces from Odoo formated account numbers.
+            acc_num = acc_num.replace(" ", "")
             if len(acc_num) == 18 and acc_num[:2] == 'FI' and acc_num[2:].isdigit():
                 return acc_num[2:]
             return None
@@ -74,7 +76,7 @@ class InvoiceBarcode(models.Model):
         return None
 
     @api.depends('currency_id', 'amount_total', 'invoice_date_due',
-                 'ref_number', 'invoice_partner_bank_id')
+                 'ref_number', 'partner_bank_id')
     def _compute_bank_barcode(self):
         for record in self:
 
@@ -92,7 +94,7 @@ class InvoiceBarcode(models.Model):
                 if version:
                     inv_sum_str = record._get_amount_str(record.amount_total)
                     inv_date_str = record._get_date_str(record.invoice_date_due)
-                    inv_iban_str = record._get_iban_str(record.invoice_partner_bank_id)
+                    inv_iban_str = record._get_iban_str(record.partner_bank_id)
 
                     if version == 5:
                         inv_extra_str = ''  # No padding for version 5
