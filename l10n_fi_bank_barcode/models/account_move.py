@@ -46,9 +46,7 @@ class InvoiceBarcode(models.Model):
 
     def _get_iban_str(self, bank_account):
         if bank_account:
-            acc_num = bank_account.acc_number
-            # remove spaces from Odoo formated account numbers.
-            acc_num = acc_num.replace(" ", "")
+            acc_num = bank_account.sanitized_acc_number
             if len(acc_num) == 18 and acc_num[:2] == 'FI' and acc_num[2:].isdigit():
                 return acc_num[2:]
             return None
