@@ -207,7 +207,7 @@
                                             <span>Payment reference</span>
                                         </td>
                                         <td>
-                                            <t t-esc="o.ref_number"/>
+                                            <t t-esc="o.payment_reference"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -239,7 +239,7 @@
                                     <tr>
                                         <td>Our reference</td>
                                         <td>
-                                            <span t-field="o.payment_reference" t-if="o.move_type == 'in_invoice' or o.move_type == 'out_invoice'"/>
+                                            <span t-field="o.invoice_origin" t-if="o.move_type == 'in_invoice' or o.move_type == 'out_invoice'"/>
                                             <span t-field="o.ref" t-if="o.move_type == 'in_refund' or o.move_type == 'out_refund'"/>
                                         </td>
                                     </tr>
@@ -458,7 +458,7 @@
                                     </div>
                                     <div class="col-10 border-left">
                                         <strong>
-                                            <span t-field="o.ref_number" class="bank-transfer-value"/>
+                                            <span t-field="o.payment_reference" class="bank-transfer-value"/>
                                         </strong>
                                     </div>
                                 </div>

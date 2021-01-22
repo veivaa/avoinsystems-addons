@@ -74,7 +74,7 @@ class InvoiceBarcode(models.Model):
         return None
 
     @api.depends('currency_id', 'amount_total', 'invoice_date_due',
-                 'ref_number', 'partner_bank_id')
+                 'payment_reference', 'partner_bank_id')
     def _compute_bank_barcode(self):
         for record in self:
 
@@ -87,7 +87,7 @@ class InvoiceBarcode(models.Model):
                 continue
 
             if record.is_invoice():
-                version = record._get_version(record.ref_number)  # Barcode version
+                version = record._get_version(record.payment_reference)  # Barcode version
 
                 if version:
                     inv_sum_str = record._get_amount_str(record.amount_total)
@@ -96,10 +96,10 @@ class InvoiceBarcode(models.Model):
 
                     if version == 5:
                         inv_extra_str = ''  # No padding for version 5
-                        inv_ref_str = record._get_rf_ref_str(record.ref_number)
+                        inv_ref_str = record._get_rf_ref_str(record.payment_reference)
                     else:
                         inv_extra_str = '000'  # Padding for version 4
-                        inv_ref_str = record._get_fin_ref_str(record.ref_number)
+                        inv_ref_str = record._get_fin_ref_str(record.payment_reference)
 
                     if inv_sum_str and inv_date_str and inv_ref_str and inv_iban_str:
                         record.bank_barcode = str(version) + inv_iban_str + \
